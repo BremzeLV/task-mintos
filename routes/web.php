@@ -17,8 +17,5 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
+Route::post('validateEmail', 'Auth\RegisterController@validateEmail')->name('validateEmail');
 Route::get('/home', 'HomeController@index')->name('home');

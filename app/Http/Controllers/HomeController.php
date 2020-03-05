@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Helpers\Feeds\TheRegisterFeed;
+use App\Helpers\Feeds\WikiFeed;
+use App\Helpers\RSSFeedFetcher;
+use App\Helpers\WordsCounter;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -23,6 +27,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $wiki = new WikiFeed('eng', 3600);
+        $wikiData = RSSFeedFetcher::fetchData($wiki);
+
+        $theRegister = new TheRegisterFeed('theRegister', 60);
+        $theRegisterData = RSSFeedFetcher::fetchData($theRegister);
+
+        $wordList = WordsCounter::countWordsInRegisterRows($theRegisterData, $wikiData, 10);
+
+        return view('home', [
+            'rssData' => $theRegisterData,
+            'wordList'=> $wordList
+        ]);
     }
 }
