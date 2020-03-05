@@ -23,9 +23,11 @@ class WordsCounterTest extends TestCase
         );
         $exclude_words  = array('it');
         $exclude_words2 = array('it', 'wee', 'is');
+        $exclude_words3 = array();
 
         $this->assertEquals(array('hello' => 3, 'wee' => 1), WordsCounter::countWordsInRegisterRows($input_data, $exclude_words, 2));
         $this->assertEquals(array('hello' => 3), WordsCounter::countWordsInRegisterRows($input_data, $exclude_words, 1));
         $this->assertEquals(array('hello' => 3, 'omg' => 1), WordsCounter::countWordsInRegisterRows($input_data, $exclude_words2, 2));
+        $this->assertEquals(array('hello' => 3), WordsCounter::countWordsInRegisterRows($input_data, $exclude_words3, 1));
     }
 }
